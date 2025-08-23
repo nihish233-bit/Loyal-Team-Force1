@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hacked by S.M.A.C</title>
+  <style>
+    body {
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    .logo {
+      animation: pulse 2s infinite alternate;
+    }
+
+    .logo img {
+      width: 250px;
+      filter: drop-shadow(0 0 20px red);
+    }
+
+    @keyframes pulse {
+      from { filter: drop-shadow(0 0 5px red); }
+      to   { filter: drop-shadow(0 0 30px red); }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <img src="smac_transparent.png" alt="SMAC Logo">
+  </div>
+  <canvas id="hackCanvas" width="600" height="150"></canvas>
+
+  <script>
+    const canvas = document.getElementById("hackCanvas");
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle = "red";
+    ctx.font = "bold 40px monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const text = "HACKED BY S.M.A.C";
+    const textWidth = ctx.measureText(text).width;
+
+    // Noktalı efekt için yazıyı pikselleştir
+    function drawText() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let y = 0; y < imageData.height; y += 6) {
+        for (let x = 0; x < imageData.width; x += 6) {
+          const index = (y * imageData.width + x) * 4;
+          const alpha = imageData.data[index + 3];
+          if (alpha > 128) {
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+    }
+
+    // Yanıp sönme efekti
+    setInterval(drawText, 200);
+  </script>
+</body>
+</html>
+
