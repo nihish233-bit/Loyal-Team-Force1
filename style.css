@@ -53,3 +53,7 @@ header nav ul li a:hover, header nav ul li a.active { color: #ffc107; }
 #leaderboard td[contenteditable="true"] { background-color: #111; }
 
 .btn { cursor: pointer; }
+
+body {
+  overflow-x: scroll;  /* Yatay kaydırmayı açar */
+}
