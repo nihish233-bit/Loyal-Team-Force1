@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>LTF Chat</title>
+<style>
+body { font-family: Arial; background: #111; color: white; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+#chat { max-width: 500px; width: 100%; margin-top: 20px; overflow-y: auto; max-height: 400px; }
+.message { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; }
+.message img { width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; }
+input, button { padding: 10px; margin-top: 10px; border-radius: 8px; border: none; font-size: 16px; width: 100%; }
+button { background: gold; color: black; font-weight: bold; cursor: pointer; }
+button:hover { background: #ffcc00; }
+</style>
+</head>
+<body>
+
+<h2>Ekibim Chat</h2>
+
+<div id="loginBox">
+  <input type="text" id="nickname" placeholder="Nickname">
+  <input type="text" id="photoURL" placeholder="Profil Fotoğrafı URL (Opsiyonel)">
+  <button id="loginBtn">Giriş Yap</button>
+</div>
+
+<div id="chatBox" style="display:none;">
+  <div id="chat"></div>
+  <input type="text" id="messageInput" placeholder="Mesaj yaz...">
+  <button id="sendBtn">Gönder</button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-analytics.js"></script>
+
+<script>
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBfAdtIDE2Jygi2Kq_lhgG17KloS_hrjBU",
+  authDomain: "ltfsite.firebaseapp.com",
+  projectId: "ltfsite",
+  storageBucket: "ltfsite.firebasestorage.app",
+  messagingSenderId: "472221687951",
+  appId: "1:472221687951:web:6fefbb8ca245f3512110fa",
+  measurementId: "G-20513EFL5L"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const analytics = firebase.analytics();
+const db = firebase.database();
+
+let currentUser = null;
+
+// Giriş butonu
+document.getElementById("loginBtn").addEventListener("click", function() {
+  const nick = document.getElementById('nickname').value.trim();
+  const photo = document.getElementById('photoURL').value.trim() || "https://via.placeholder.com/30";
+  if(nick === "") {
+    alert("Lütfen nickname girin!");
+    return;
+  }
+  currentUser = { nickname: nick, photo: photo };
+  document.getElementById('loginBox').style.display = "none";
+  document.getElementById('chatBox').style.display = "block";
+  loadMessages();
+});
+
+// Mesaj gönder
+document.getElementById("sendBtn").addEventListener("click", function() {
+  const msgInput = document.getElementById('messageInput');
+  const text = msgInput.value.trim();
+  if(text === "" || !currentUser) return;
+
+  const newMsgRef = db.ref('messages').push();
+  newMsgRef.set({
+    user: currentUser.nickname,
+    photo: currentUser.photo,
+    text: text,
+    timestamp: Date.now()
+  });
+  msgInput.value = "";
+});
+
+// Mesajları yükle ve 2 gün kontrolü
+function loadMessages() {
+  const chatDiv = document.getElementById('chat');
+  const messagesRef = db.ref('messages');
+
+  messagesRef.on('child_added', function(snapshot) {
+    const data = snapshot.val();
+    const now = Date.now();
+
+    if(now - data.timestamp > 1000*60*60*24*2) {
+      db.ref('messages/' + snapshot.key).remove();
+      return;
+    }
+
+    const div = document.createElement('div');
+    div.className = "message";
+    div.innerHTML = `<img src="${data.photo}" alt="Profil"> <strong>${data.user}:</strong> ${data.text}`;
+    chatDiv.appendChild(div);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  });
+}
+</script>
+
+</body>
+</html>
