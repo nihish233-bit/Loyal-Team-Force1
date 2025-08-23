@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ekibim Giriş</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a40);
+      font-family: "Segoe UI", sans-serif;
+      color: white;
+    }
+    .login-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+      text-align: center;
+      width: 350px;
+    }
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: gold;
+      text-shadow: 0 0 10px gold;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background: gold;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #ffcc00;
+    }
+    #error {
+      margin-top: 10px;
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>🔒 Özel Alan Girişi</h2>
+    <p>Şifreyi girin:</p>
+    <input type="password" id="password" placeholder="Şifre">
+    <button onclick="checkPassword()">Giriş Yap</button>
+    <p id="error"></p>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const sifre = document.getElementById("password").value;
+      const dogruSifre = "LTFwin"; // 👉 Buraya kendi şifreni yazabilirsin
+
+      if (sifre === dogruSifre) {
+        localStorage.setItem("girisYapildi", "true"); 
+        window.location.href = "ekip.html"; // Özel sayfaya yönlendir
+      } else {
+        document.getElementById("error").textContent = "❌ Yanlış şifre! Tekrar deneyin.";
+      }
+    }
+  </script>
+</body>
+</html>
