@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LTF - Ana Sayfa</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LTF - Ana Sayfa</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Sağa kaydırma için */
+    html, body {
+      width: 200%;     /* Genişliği 2 kat yapıyoruz */
+      overflow-x: auto; /* Yatay kaydırma aktif */
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
 
@@ -13,7 +22,7 @@
     <nav>
         <ul>
             <li><a href="index.html" class="active">Ana Sayfa</a></li>
-            <li><a href="team.html">Ekip Uyeleri</a></li>
+            <li><a href="team.html">Ekip Üyeleri</a></li>
             <li><a href="leaderboard.html">Liderlik Tablosu</a></li>
             <li><a href="login.html">Giriş / Kayıt</a></li>
             <li><a href="chat.html">Chat</a></li>
@@ -23,9 +32,9 @@
 
 <section class="hero">
     <div class="hero-content">
-        <h1> <span>Loyal Team Force</span></h1>
+        <h1><span>Loyal Team Force</span></h1>
         <p>Profesyonel bir ekip</p>
-        <a href="team.html" class="btn">Ekibe bir goz at</a>
+        <a href="team.html" class="btn">Ekibe bir göz at</a>
     </div>
 </section>
 
@@ -63,33 +72,5 @@
 </footer>
 
 <script src="script.js"></script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ana Sayfa</title>
-  <style>
-    html, body {
-      width: 200%;
-      overflow-x: auto;
-      margin: 0;
-      padding: 0;
-    }
-    .icerik {
-      width: 200%; /* İçeriği geniş tut ki kaydırılsın */
-      background: linear-gradient(to right, #ffcccc, #ccffcc);
-      height: 100vh;
-    }
-  </style>
-</head>
-<body>
-  <div class="icerik">
-    <h1>Ana Sayfa</h1>
-    <p>Burada sağa kaydırma aktif 🚀</p>
-  </div>
 </body>
 </html>
